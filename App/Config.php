@@ -2,12 +2,12 @@
 
 	$landing_controller = 'Database';
 
-	$base_url = "http://localhost/turbo_sql";
+	$base_url = ""; // example : http://localhost/Project/turbo_sql/
 
 	$DATABASE = array(
-		'status'    =>true,
+		'status'    =>false,
 		'hostname'  =>'localhost',
 		'username'  =>'root',
 		'password'  =>'',
-		'dbname'    =>'test'
+		'dbname'    =>''
 	);
