@@ -68,6 +68,18 @@
 					This software is still to be used only in local machine or say localhost. It's easy to use and feel free to feedback on <span class="text-danger">GITHUB Repo!</span>
 				</small>
 			</div>
+			<br><br>
+		<hr class="bg-info">
+		<hr class="bg-info">
+		<center>
+			<div class="">
+				<span class="h2">
+					<small>
+						Developed with <small><i class="text-danger fa fa-heart"></i></small> By Hrishikesh Vaze
+					</small>
+				</span>
+			</div>
+		</center>
 	</div>
 </div>
 <?php require 'footer.php'; ?>
