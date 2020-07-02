@@ -1,7 +1,7 @@
 <?php require 'header.php';$i=1; ?>
  <div class=" sticky-top bg-white">
  	<span class="display-4 mb-5">Database: <?=$curr_dbname?></span>
- 	<div class="h3 pt-3"><a class="badge badge-primary" href="<?=base_url('Database/add')?>">Add Table</a></div>
+ 	<div class="h3 pt-3"><a class="badge badge-primary" href="<?=base_url('Database/add')?>">Add Table</a><a class="ml-3 badge badge-primary" href="<?=base_url('Database/Query')?>">Run Query</a></div>
  	 <hr class="bg-info">
  </div>
  

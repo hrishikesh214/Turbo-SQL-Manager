@@ -113,7 +113,7 @@ class Database extends CodeRunner{
 		$query = "CREATE TABLE ".$table_name." (";
 		foreach ($fields_info as $k) {
 			if( is_string($k['default']) AND ($k['default'] != NULL) AND $k['type'] != 'timestamp'){
-					$k['default'] = "'".$k['default']."'";
+				$k['default'] = "'".$k['default']."'";
 				
 			}
 			if(isset($k['name']) AND ($k['name'] != '' OR $k['name'] != NULL)){
@@ -198,36 +198,36 @@ class Database extends CodeRunner{
 		unset($_POST['submit']);
 		$query = "ALTER TABLE ".$_POST['table_name']." ADD";
 		if( is_string($_POST['field_default']) AND ($_POST['field_default'] != NULL) AND $_POST['field_type'] != 'timestamp'){
-					$_POST['field_default'] = "'".$_POST['field_default']."'";
-				
-			}
-			if(isset($_POST['name']) AND ($_POST['name'] != '' OR $_POST['name'] != NULL)){
-				$query .= " ".$_POST['name'];
-			}
-			if(isset($_POST['field_type']) AND ($_POST['field_type'] != '' OR $_POST['field_type'] != NULL)){
-				$query .= " ".$_POST['field_type'];
-			}
-			if(isset($_POST['field_length']) AND ($_POST['field_length'] != '' OR $_POST['field_length'] != NULL)){
-				$query .= "(".$_POST['field_length'].")";
-			}
-			if(isset($_POST['field_nn']) AND $_POST['field_nn'] == 'on'){
-				$query .= " NOT NULL";
-			}
-			if(isset($_POST['field_pri']) AND $_POST['field_pri'] == 'on'){
-				$query .= " PRIMARY KEY";
-			}
-			if(isset($_POST['field_ai']) AND $_POST['field_ai'] == 'on'){
-				$query .= " auto_increment";
-			}
-			if(isset($_POST['field_default']) AND ($_POST['field_default'] != '') OR $_POST['default'] != NULL){
-				$query .= " DEFAULT " . $_POST['field_default'];
-			}	
-			if(isset($_POST['field_extra']) AND ($_POST['field_extra'] != '' OR $_POST['field_extra'] != NULL)){
-				$query .= " ".$_POST['field_extra'];
-			}
-			if(isset($_POST['after_col_name']) AND ($_POST['after_col_name'] != '' OR $_POST['after_col_name'] != NULL)){
-				$query .= " AFTER " . $_POST['after_col_name'];
-			}
+			$_POST['field_default'] = "'".$_POST['field_default']."'";
+
+		}
+		if(isset($_POST['name']) AND ($_POST['name'] != '' OR $_POST['name'] != NULL)){
+			$query .= " ".$_POST['name'];
+		}
+		if(isset($_POST['field_type']) AND ($_POST['field_type'] != '' OR $_POST['field_type'] != NULL)){
+			$query .= " ".$_POST['field_type'];
+		}
+		if(isset($_POST['field_length']) AND ($_POST['field_length'] != '' OR $_POST['field_length'] != NULL)){
+			$query .= "(".$_POST['field_length'].")";
+		}
+		if(isset($_POST['field_nn']) AND $_POST['field_nn'] == 'on'){
+			$query .= " NOT NULL";
+		}
+		if(isset($_POST['field_pri']) AND $_POST['field_pri'] == 'on'){
+			$query .= " PRIMARY KEY";
+		}
+		if(isset($_POST['field_ai']) AND $_POST['field_ai'] == 'on'){
+			$query .= " auto_increment";
+		}
+		if(isset($_POST['field_default']) AND ($_POST['field_default'] != '') OR $_POST['default'] != NULL){
+			$query .= " DEFAULT " . $_POST['field_default'];
+		}	
+		if(isset($_POST['field_extra']) AND ($_POST['field_extra'] != '' OR $_POST['field_extra'] != NULL)){
+			$query .= " ".$_POST['field_extra'];
+		}
+		if(isset($_POST['after_col_name']) AND ($_POST['after_col_name'] != '' OR $_POST['after_col_name'] != NULL)){
+			$query .= " AFTER " . $_POST['after_col_name'];
+		}
 		if($this->db->query($query)){
 			redirect(base_url('Database/struc_table/'.$_POST['table_name']));
 		}
@@ -266,4 +266,36 @@ class Database extends CodeRunner{
 		}
 	}
 
+	public function Query(){
+		$data['mode'] = 'sql';
+		$data['curr_dbname'] = $this->db->query("SELECT database()")->fetch_all()[0][0];
+		$this->load->view('Run/query_view',$data);
+	}
+	public function query_handle(){
+		$code = $_POST['code'];
+		$result = $this->db->query($code);
+		if(is_object($result)){
+			$result = $result->fetch_all(MYSQLI_ASSOC);
+			$data['result'] = $result;
+			$col_names = array();
+			if(isset($result[0])){
+				 $col_names = array_keys($result[0]);
+			}
+			$data['col_names'] = $col_names;
+			$data['cols'] = sizeof($col_names);
+			$data['rows'] = sizeof($result);
+			$this->load->view('Run/handle_view',$data);
+		}
+		else if(is_bool($result)){
+			if($result){
+				echo "<span class='alert alert-success'>Success!</span>";
+			}
+			else{
+				echo "<span class='alert alert-danger'>Fail!</span>";
+			}
+		}	
+		else{
+			echo "<span class='alert alert-warning'>Still Developing this type...</span>";
+		}	
+	}
 }
